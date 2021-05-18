@@ -1,14 +1,17 @@
-function redirectSelection() {
-    let animalType = sessionStorage.getItem("animalType");
-    if(animalType == "invertebrate") {
-        sessionStorage.setItem("animalType", "fish");
-    } else {
-        sessionStorage.setItem("animalType", "invertebrate");
-    }
+function redirectFishSelection() {
+    sessionStorage.setItem("animalType", "fish");
+    sessionStorage.setItem("plants", false);
+    window.location.href = "/fish-category/";
+}
+
+function redirectInvertebrateSelection() {
+    sessionStorage.setItem("animalType", "invertebrate");
+    sessionStorage.setItem("plants", false);
     window.location.href = "/fish-category";
 }
 
 function redirectPlants() {
+    sessionStorage.setItem("plants", true);
     window.location.href = "/plants-category";
 }
 
@@ -49,10 +52,10 @@ swCard.appendChild(swImg);
 swCard.appendChild(swTitle);
 document.getElementById("saltwater").appendChild(swCard);
 
-if(animalType == "invertebrate") {
-    let type = document.getElementById("fish-btn");
-    type.textContent = "Fish";
-} else {
-    let type = document.getElementById("fish-btn");
-    type.textContent = "Invertebrates";
+if(animalType == "fish") {
+    document.getElementById("fish-btn").textContent = "Invertebrates";
+    document.getElementById("fish-btn").setAttribute("onclick", "redirectInvertebrateSelection();")
+    sessionStorage.setItem("plants", false);
+} else if(animalType == "invertebrate") {
+    sessionStorage.setItem("plants", false);
 }

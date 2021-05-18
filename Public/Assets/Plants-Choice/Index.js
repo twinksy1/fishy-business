@@ -1,14 +1,22 @@
 function redirectFishSelection() {
     sessionStorage.setItem("animalType", "fish");
-    window.location.href = "/fish-category";
+    sessionStorage.setItem("plants", false);
+    window.location.href = "/fish-category/";
 }
 
 function redirectInvertebrateSelection() {
     sessionStorage.setItem("animalType", "invertebrate");
+    sessionStorage.setItem("plants", false);
     window.location.href = "/fish-category";
 }
 
+function redirectPlants() {
+    sessionStorage.setItem("plants", true);
+    window.location.href = "/plants-category";
+}
+
 sessionStorage.setItem("plants", true);
+sessionStorage.setItem("animalType", "");
 let fwCard = document.createElement("div");
 fwCard.className = "card";
 fwCard.id = "card-choice";

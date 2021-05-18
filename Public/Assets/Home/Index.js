@@ -21,6 +21,7 @@ function redirectPlants() {
     window.location.href = "/plants-category";
 }
 
+sessionStorage.setItem("plants", false);
 let opacityVals = new Array(4);
 opacityVals[0] = 0.0;
 opacityVals[1] = 0.0;
