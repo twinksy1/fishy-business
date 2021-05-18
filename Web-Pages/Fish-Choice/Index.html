@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="/Assets/Fish-Choice/Styles.css" rel="stylesheet">
+    <!--Bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <title>Welcome to Fishy Business!</title>
+    
+    <div id="page-title-container">
+        <nav class="navbar navbar-dark bg-dark" id="title-navbar">
+            <div id="title-container" class="row">
+                <div id="title-img-container">
+                    <img src="/Images/cartoonGuppy.png" class="img">
+                </div>
+                <h2 id="page-title">Fishy Business</h2>
+                <div id="title-img-container">
+                    <img src="/Images/cartoonPlatys.png" class="img">
+                </div>
+            </div>
+        </nav>
+        <nav class="navbar navbar-light bg-light">
+            <div class="container-fluid">
+                <button class="btn-link" onclick="window.location.href = '/';">Home</button>
+                <button id="fish-btn" class="btn-link" onclick="redirectSelection();">Invertebrates</button>
+                <button class="btn-link" onclick="redirectPlants();">Plants</button>
+                <button class="btn-link" onclick="">Supplies & Accessories</button>
+            </div>
+        </nav>
+    </div>
+</head>
+
+<body>
+    <div id="body-container" class="row">
+        <div class="col-2"></div>
+        <a id="freshwater" class="col-3" href="/fish-category/fw-inventory"></a>
+        <div class="col-2"></div>
+        <a id="saltwater" class="col-3" href="/fish-category/sw-inventory"></a>
+        <div class="col-2"></div>
+    </div>
+    <!-- <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="/Images/saltwater-fish-selection.jpg" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+                content.</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+    </div>
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="/Images/freshwater-fish-selection.jpg" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
+                content.</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+    </div> -->
+</body>
+<footer>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <nav id="footer" class="navbar navbar-dark bg-dark">
+        <div id="words-footer">
+            <h5>Fishy Business</h5>
+            <p style="padding-left: 0.2cm">9001 Stockdale Hwy, Bakersfield, CA 93311</p>
+        </div>
+    </nav>
+</footer>
+<!--Bootstrap-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+    crossorigin="anonymous"></script>
+<script src="/Assets/Fish-Choice/Index.js"></script>
+</html>
