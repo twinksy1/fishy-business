@@ -5,6 +5,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Ignore DB json for security
+dbConn.json
+
 # Runtime data
 pids
 *.pid

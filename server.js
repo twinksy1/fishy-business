@@ -1,8 +1,11 @@
 const EXPRESS = require("express");
+const DB_CONN = require("./dbConn.json");
 const FS = require("fs");
+const {Client} = require("pg");
 const PATH = require("path");
 const ROUTER = EXPRESS.Router();
 
+const CONN = new Client(DB_CONN);
 
 const APP = EXPRESS();
 APP.use(EXPRESS.static("./Public"));
