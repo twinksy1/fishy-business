@@ -25,3 +25,50 @@ if(animalType == "fish" && isPlants != "true") {
     document.getElementById("plants-btn").textContent = "Invertebrates";
     document.getElementById("plants-btn").setAttribute("onclick", "redirectInvertebrateSelection();")
 }
+
+async function getFreshwaterFish() {
+    let response = await fetch("http://localhost:3000/freshwaterFish", {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({})
+    });
+    console.log(response.json());
+}
+async function getSaltwaterFish() {
+    let response = await fetch("http://localhost:3000/saltwaterFish", {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({})
+    });
+    console.log(response.json());
+}
+async function getFreshwaterInvertebrates() {
+    let response = await fetch("http://localhost:3000/freshwaterInvertebrates", {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({})
+    });
+    console.log(response.json());
+}
+async function getSaltwaterInvertebrates() {
+    let response = await fetch("http://localhost:3000/saltwaterInvertebrates", {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({})
+    });
+    console.log(response.json());
+}
+
+getFreshwaterFish();
