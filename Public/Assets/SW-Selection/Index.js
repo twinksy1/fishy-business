@@ -101,6 +101,7 @@ async function setup() {
         title.className = "result-title";
         title.textContent = name;
         let img = document.createElement("img");
+        img.className = "card-img-top";
         img.src = getPictureLocation(name);
         result.appendChild(img);
         result.appendChild(title);
