@@ -68,7 +68,9 @@
 }
 
 #card-choice:hover {
-    width: 24rem;
+    width: 20rem;
+    border: solid black 3px;
+    background-color: lightgoldenrodyellow;
 }
 
 .card {

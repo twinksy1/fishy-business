@@ -43,7 +43,6 @@ ROUTER.post("/freshwaterFish", async function(req, res) {
     } catch(err) {
         console.log(err);
     } finally {
-        console.log(results.rows);
         res.send(results.rows);
     }
 });
@@ -54,7 +53,6 @@ ROUTER.post("/saltwaterFish", async function(req, res) {
     } catch(err) {
         console.log(err);
     } finally {
-        console.log(results.rows);
         res.send(results.rows);
     }
 });
@@ -65,7 +63,6 @@ ROUTER.post("/freshwaterInvertebrates", async function(req, res) {
     } catch(err) {
         console.log(err);
     } finally {
-        console.log(results.rows);
         res.send(results.rows);
     }
 });
@@ -76,7 +73,6 @@ ROUTER.post("/saltwaterInvertebrates", async function(req, res) {
     } catch(err) {
         console.log(err);
     } finally {
-        console.log(results.rows);
         res.send(results.rows);
     }
 });
@@ -87,7 +83,6 @@ ROUTER.post("/freshwaterPlants", async function(req, res) {
     } catch(err) {
         console.log(err);
     } finally {
-        console.log(results.rows);
         res.send(results.rows);
     }
 });
@@ -98,7 +93,6 @@ ROUTER.post("/saltwaterPlants", async function(req, res) {
     } catch(err) {
         console.log(err);
     } finally {
-        console.log(results.rows);
         res.send(results.rows);
     }
 });
