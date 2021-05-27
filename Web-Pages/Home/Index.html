@@ -33,6 +33,17 @@
     <body>
         <div id="main-img-container">
             <img id="main-img" class="img" src="/Images/aquarium1.jpg">
+            <div id="sign-in-container">
+                <form onsubmit="return false;">
+                    <h2 id="title">Member Sign In</h2>
+                    <label for="email-input" id="words-body" class="labels">Email</label>
+                    <input id="email-input" class="input" type="email" placeholder="example@hotmail.com" required>
+                    <label for="pw-input" id="words-body" class="labels">Password</label>
+                    <input id="pw-input" class="input" type="password" placeholder="****" required>
+                    <p id="words-body" style="text-align: left;">Not a member? <a href="#">Sign Up!</a></p>
+                    <button id="sign-in-btn" type="submit" onclick="signIn();">Sign In</button>
+                </form>
+            </div>
         </div>
         <div id="bg-container" class="container-fluid">
             <h2 id="title">FISH KEEPING MADE EASY!</h2>

@@ -15,6 +15,19 @@ function redirectPlants() {
     sessionStorage.setItem("plants", true);
     window.location.href = "/plants-category";
 }
+let member = sessionStorage.getItem("member");
+if(member == undefined) {
+    window.location.href = "/";
+} else {
+    sessionStorage.setItem("member", member);
+}
+function redirectHome() {
+    if(member == "") {
+        window.location.href = "/";
+    } else {
+        window.location.href = "/customer-home";
+    }
+}
 
 let animalType = sessionStorage.getItem("animalType");
 let isPlants = sessionStorage.getItem("plants");
@@ -52,7 +65,7 @@ async function getFreshwaterInvertebrates() {
 }
 
 async function getFreshwaterPlants() {
-    let response = await fetch("http://localhost:3000/freshwaterInvertebrates", {
+    let response = await fetch("http://localhost:3000/freshwaterPlants", {
         method: "POST",
         headers: {
             Accept: "application/json",
@@ -82,10 +95,11 @@ async function setup() {
     let i = 0;
     let results = document.getElementById("results");
     console.log(inventory);
+    let amountPerRow = 3;
     var rowObj;
     while(i < inventory.length) {
         let name = inventory[i].commonname;
-        if(i % 3 == 0) {
+        if(i % amountPerRow == 0) {
             results.appendChild(document.createElement("br"));
             rowObj = document.createElement("div");
             rowObj.className = "row";

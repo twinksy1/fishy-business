@@ -14,6 +14,20 @@ function redirectPlants() {
     sessionStorage.setItem("plants", true);
     window.location.href = "/plants-category";
 }
+let member = sessionStorage.getItem("member");
+if(member == undefined) {
+    window.location.href = "/";
+} else {
+    sessionStorage.setItem("member", member);
+}
+
+function redirectHome() {
+    if(member == "") {
+        window.location.href = "/";
+    } else {
+        window.location.href = "/customer-home";
+    }
+}
 
 sessionStorage.setItem("plants", false);
 let animalType = sessionStorage.getItem("animalType");

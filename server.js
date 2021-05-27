@@ -34,6 +34,9 @@ ROUTER.get("/plants-category/fw-inventory", function(req, res) {
 ROUTER.get("/plants-category/sw-inventory", function(req, res) {
     res.sendFile(PATH.join(__dirname + "/Web-Pages/SW-Selection/Index.html"));
 });
+ROUTER.get("/customer-home", function(req, res) {
+    res.sendFile(PATH.join(__dirname + "/Web-Pages/Customer-Home/Index.html"));
+})
 
 // SQL
 ROUTER.post("/freshwaterFish", async function(req, res) {
@@ -96,6 +99,28 @@ ROUTER.post("/saltwaterPlants", async function(req, res) {
         res.send(results.rows);
     }
 });
+ROUTER.post("/signIn", async function(req, res) {
+    let body = req.body;
+    let result = {};
+    try {
+        result = await searchCustomer(body);
+    } catch(err) {
+        console.log(err);
+    } finally {
+        res.send(result.rows);
+    }
+});
+
+async function searchCustomer(body) {
+    let result = {};
+    try {
+        result = await CONN.query("SELECT * FROM customer WHERE email = $1 AND password = $2", [body.email, body.pw]);
+    } catch(err) {
+        console.log(err);
+    } finally {
+        return result;
+    }
+}
 
 
 APP.use(EXPRESS.json());

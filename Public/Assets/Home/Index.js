@@ -21,6 +21,7 @@ function redirectPlants() {
     window.location.href = "/plants-category";
 }
 
+sessionStorage.setItem("member", "");
 sessionStorage.setItem("plants", false);
 let opacityVals = new Array(4);
 opacityVals[0] = 0.0;
@@ -41,3 +42,27 @@ window.setInterval(function () {
         elements[i].style.opacity = opacityVals[i];
     }
 }, 10);
+
+async function signIn() {
+    let email = document.getElementById("email-input").value;
+    let pw = document.getElementById("pw-input").value;
+    let body = JSON.stringify({
+        email: email,
+        pw: pw,
+    });
+    let response = await fetch("http://localhost:3000/signIn", {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body: body
+    });
+    let result = await response.json();
+    if(result == {}) {
+        // Show error pop up
+    } else {
+        sessionStorage.setItem("member", JSON.stringify(result));
+        window.location.href = "/customer-home";
+    }
+}
