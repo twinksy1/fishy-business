@@ -75,7 +75,13 @@
     text-align: left;
     padding-top: 0.25cm;
     padding-bottom: 0.25cm;
+    padding-left: 10px;
     display: inline;
+}
+
+.checkbox {
+    justify-self: left;
+    position: relative;
 }
 
 .words {
@@ -91,7 +97,7 @@
 }
 
 #result {
-    width: auto;
+    height: 6in;
 }
 
 #results {
@@ -100,6 +106,9 @@
 
 #options {
     height: 100%;
+    text-align: center;
+    background-color: whitesmoke;
+    padding-bottom: 2cm;
 }
 
 #details-row {
@@ -110,6 +119,13 @@
     width: 100%;
     height: 15vw;
     object-fit: cover;
+}
+
+#err-message {
+    color: red;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+    padding-top: 1cm;
 }
 
 /* End Body */
@@ -127,7 +143,7 @@
 
 #footer {
     width: 100%;
-    position: relative;
+    position: fixed;
     bottom: 0;
 }
 /* End Footer */

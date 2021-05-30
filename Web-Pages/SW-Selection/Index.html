@@ -35,6 +35,32 @@
     <div class="row">
         <div id="options" class="col-2">
             <h3 class="title">Options</h3>
+            <input id="searchbar" type="text">
+            <button type="button" id="searchbar-btn" onclick="search();">Search</button>
+            <div class="row">
+                <div class="col-6">
+                    <label for="checkbox1" class="label">Mollies</label>
+                </div>
+                <div class="col-6">
+                    <input id="checkbox1" class="checkbox" onclick="updateResults();" type="checkbox"  value="Molly">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label for="checkbox2" class="label">Platys</label>
+                </div>
+                <div class="col-6">
+                    <input id="checkbox2" class="checkbox" onclick="updateResults();" type="checkbox"  value="Platy">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label for="checkbox3" class="label">Guppies</label>
+                </div>
+                <div class="col-6">
+                    <input id="checkbox3" class="checkbox" onclick="updateResults();" type="checkbox" value="Guppy">
+                </div>
+            </div>
         </div>
         <div id="results" class="col-8">
             
