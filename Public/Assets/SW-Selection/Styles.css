@@ -96,15 +96,29 @@
     font-size: 12px;
 }
 
-#result {
+.card {
     height: 6in;
+}
+
+#side-menu {
+    left: 0;
+    position: fixed;
+    padding-right: 1cm;
+}
+
+#cart-container {
+    position: fixed;
+    right: 0;
 }
 
 #results {
     height: 100%;
+    position: sticky;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-#options {
+.col-2 {
     height: 100%;
     text-align: center;
     background-color: whitesmoke;
@@ -113,6 +127,10 @@
 
 #details-row {
     display: inline-block;
+}
+
+.cart-entry-container {
+    display: grid;
 }
 
 .card-img-top {
@@ -126,6 +144,51 @@
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     text-align: center;
     padding-top: 1cm;
+}
+
+.add-btn {
+    border-radius: 1cm;
+    background-color: greenyellow;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    color: white;
+    font-weight: normal;
+    padding: 5px;
+}
+
+.cart-entry-amount {
+    display: inline;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    font-weight: normal;
+    color: white;
+    text-align: left;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.cart-entry-name {
+    display: inline;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    font-weight: normal;
+    color: white;
+    text-align: left;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-bottom: solid black 2px;
+}
+
+.rem-btn {
+    display: inline;
+    border-radius: 1cm;
+    background-color: red;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    color: white;
+    font-weight: normal;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 /* End Body */

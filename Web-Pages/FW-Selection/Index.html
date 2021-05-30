@@ -33,16 +33,17 @@
 
 <body>
     <div class="row">
-        <div id="options" class="col-2">
+        <div id="side-menu" class="col-2">
             <h3 class="title">Options</h3>
-            <input id="searchbar" type="text">
-            <button type="button" id="searchbar-btn" onclick="search();">Search</button>
+            <input id="searchbar" type="text" placeholder="Search">
+            <br>
+            <br>
             <div class="row">
                 <div class="col-6">
                     <label for="checkbox1" class="label">Mollies</label>
                 </div>
                 <div class="col-6">
-                    <input id="checkbox1" class="checkbox" onclick="updateResults();" type="checkbox"  value="Molly">
+                    <input id="checkbox1" class="checkbox" onclick="search();" type="checkbox"  value="Molly">
                 </div>
             </div>
             <div class="row">
@@ -50,7 +51,7 @@
                     <label for="checkbox2" class="label">Platys</label>
                 </div>
                 <div class="col-6">
-                    <input id="checkbox2" class="checkbox" onclick="updateResults();" type="checkbox"  value="Platy">
+                    <input id="checkbox2" class="checkbox" onclick="search();" type="checkbox"  value="Platy">
                 </div>
             </div>
             <div class="row">
@@ -58,14 +59,21 @@
                     <label for="checkbox3" class="label">Guppies</label>
                 </div>
                 <div class="col-6">
-                    <input id="checkbox3" class="checkbox" onclick="updateResults();" type="checkbox" value="Guppy">
+                    <input id="checkbox3" class="checkbox" onclick="search();" type="checkbox" value="Guppy">
                 </div>
             </div>
         </div>
         <div id="results" class="col-8">
             
         </div>
-        <div class="col-2"></div>
+        <div id="cart-container" class="col-2">
+            <h3 class="title">Cart Items</h3>
+            <div id="cart">
+
+            </div>
+            <br>
+            <button id="checkout-btn" class="add-btn" disabled>Checkout</button>
+        </div>
     </div>
     
 </body>

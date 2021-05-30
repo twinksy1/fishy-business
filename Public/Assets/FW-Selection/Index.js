@@ -140,30 +140,19 @@ function getPictureLocation(name) {
     return "/Images/fish/" + name.replace(/\s+/g, '-').toLowerCase() + ".jpg";
 }
 
-async function search() {
-    let searchTerm = document.getElementById("searchbar").value.toLowerCase();
-    let search = [];
-    for(let i=0; i<inventory.length; i++) {
-        let name = inventory[i].commonname.toLowerCase();
-        if(name.includes(searchTerm)) {
-            search.push(inventory[i]);
-        }
-    }
-
+function buildDisplay(merchandise) {
     let i = 0;
+    let j = 0;
     let results = document.getElementById("results");
     results.innerHTML = '';
-    if(search.length === 0) {
-        let message = document.createElement("h2");
-        message.textContent = "No items found with that search...";
-        message.id = "err-message";
-        results.appendChild(message);
-        return;
-    }
     let amountPerRow = 3;
-    var rowObj;
-    while(i < search.length) {
-        let name = search[i].commonname;
+    let rowObj;
+    while(i < merchandise.length) {
+        j = 0;
+        while(inventory[j] != merchandise[i]) {
+            j++;
+        }
+        let name = merchandise[i].commonname;
         if(i % amountPerRow == 0) {
             results.appendChild(document.createElement("br"));
             rowObj = document.createElement("div");
@@ -174,7 +163,7 @@ async function search() {
         col.className = "col-4";
         let result = document.createElement("div");
         result.className = "card";
-        result.id = "result";
+        result.id = merchandise[i].commonname.replace(/\s+/g, '-') + j;
         let title = document.createElement("h5");
         title.className = "result-title";
         title.textContent = name;
@@ -198,7 +187,7 @@ async function search() {
         label.innerText = "Species:";
         let text = document.createElement("p");
         text.className = "words";
-        text.innerText = search[i].species;
+        text.innerText = merchandise[i].species;
         col1.appendChild(label);
         col1.appendChild(text);
         newRow.appendChild(col1);
@@ -208,7 +197,7 @@ async function search() {
         label.innerText = "Genus:";
         text = document.createElement("p");
         text.className = "words";
-        text.innerText = search[i].genus;
+        text.innerText = merchandise[i].genus;
         col2.appendChild(label);
         col2.appendChild(text);
         newRow.appendChild(col1);
@@ -229,7 +218,7 @@ async function search() {
         label.innerText = "PH Range:";
         text = document.createElement("p");
         text.className = "words";
-        text.innerText = search[i].phrange;
+        text.innerText = merchandise[i].phrange;
         col1.appendChild(label);
         col1.appendChild(text);
 
@@ -238,7 +227,7 @@ async function search() {
         label.innerText = "Price:";
         text = document.createElement("p");
         text.className = "words";
-        text.innerText = "$" + search[i].price;
+        text.innerText = "$" + merchandise[i].price;
         col2.appendChild(label);
         col2.appendChild(text);
         newRow.appendChild(col1);
@@ -259,11 +248,88 @@ async function search() {
         label.innerText = "In-Stock:";
         text = document.createElement("p");
         text.className = "words";
-        text.innerText = search[i].amount;
+        text.id = merchandise[i].commonname.replace(/\s+/g, '-') + j + "-amount";
+        text.innerText = merchandise[i].amount;
         col1.appendChild(label);
         col1.appendChild(text);
 
+        let addBtn = document.createElement("button");
+        addBtn.type = "button";
+        addBtn.id = merchandise[i].commonname.replace(/\s+/g, '-') + j + "-btn";
+        addBtn.className = "add-btn";
+        addBtn.textContent = "Add to Cart +";
+        if(merchandise[i].amount === 0) {
+            addBtn.style.backgroundColor = "whitesmoke";
+            addBtn.disabled = "disabled";
+        }
+        addBtn.addEventListener("click", function() {
+            let checkoutBtn = document.getElementById("checkout-btn");
+            checkoutBtn.disabled = false;
+            let fish = this.parentElement.parentElement.parentElement.id;
+            let fishAmount = document.getElementById(fish + "-amount");
+            fishAmount.innerText = parseInt(fishAmount.innerText) - 1;
+            inventory[parseInt(fish.slice(fish.length-1))].amount--;
+            if(parseInt(fishAmount.innerText) === 0) {
+                addBtn.style.backgroundColor = "whitesmoke";
+                this.disabled = "disabled";
+            }
+
+            let cartItem = document.getElementById(fish + "-cart-amount");
+            if(cartItem === null) {
+                let cartEntry = document.createElement("div");
+                cartEntry.id = fish + "-cart-item";
+                cartEntry.className = "cart-entry-container";
+
+                let remBtn = document.createElement("button");
+                remBtn.type = "button";
+                remBtn.id = fish + "-rem-btn";
+                remBtn.className = "rem-btn";
+                remBtn.innerText = "Remove -";
+                remBtn.onclick = function() {
+                    let itemAmount = document.getElementById(fish + "-cart-amount");
+                    itemAmount.innerText = parseInt(itemAmount.innerText) - 1;
+                    if(itemAmount.innerText === "0") {
+                        let cartEntry = document.getElementById(fish + "-cart-item");
+                        cartEntry.remove();
+                        this.remove();
+                    }
+
+                    let fishAmount = document.getElementById(fish + "-amount");
+                    if(fishAmount != null) {
+                        fishAmount.innerText = parseInt(fishAmount.innerText) + 1;
+                        if(fishAmount.innerText === "1") {
+                            let addBtn = document.getElementById(this.id.slice(0, this.id.length - 8) + "-btn");
+                            addBtn.style.backgroundColor = "greenyellow";
+                            addBtn.disabled = false;
+                        }    
+                    }
+                    
+                    inventory[parseInt(fish.slice(fish.length-1))].amount++;
+                }
+
+                let itemAmount = document.createElement("label");
+                itemAmount.id = fish + "-cart-amount";
+                itemAmount.className = "cart-entry-amount";
+                itemAmount.innerText = 1;
+
+                let itemName = document.createElement("p");
+                itemName.className = "cart-entry-name";
+                itemName.innerText = fish.split("-").join(" ").slice(0, fish.length-1);
+
+                cartEntry.appendChild(itemAmount);
+                cartEntry.appendChild(itemName);
+
+                let cart = document.getElementById("cart");
+                cart.appendChild(remBtn);
+                cart.appendChild(cartEntry);
+            } else {
+                cartItem.innerText = parseInt(cartItem.innerText) + 1;
+            }
+        });
+        col2.appendChild(addBtn);
+
         newRow.appendChild(col1);
+        newRow.appendChild(col2);
         result.appendChild(newRow);
 
         result.appendChild(document.createElement("hr"));
@@ -273,7 +339,7 @@ async function search() {
         newRow.id = "details-row";
         text = document.createElement("p");
         text.className = "description";
-        text.innerText = search[i].description;
+        text.innerText = merchandise[i].description;
         newRow.appendChild(text);
         result.appendChild(newRow);
         
@@ -282,10 +348,11 @@ async function search() {
 
         i++;
     }
-
 }
 
-async function updateResults() {
+async function search() {
+    let searchTerm = document.getElementById("searchbar").value.toLowerCase();
+    let search = [];
     let checkboxes = document.getElementsByClassName("checkbox");
     let checked = [];
     for(let i=0; i<checkboxes.length; i++) {
@@ -293,276 +360,40 @@ async function updateResults() {
             checked.push(checkboxes[i]);
         }
     }
-    if(checked.length === 0) {
-        await setup();
-        return;
-    }
-    let checkboxSearch = [];
-    for(let i=0; i<checked.length; i++) {
-        let value = checked[i].value;
-        for(let j=0; j<inventory.length; j++) {
-            let name = inventory[j].commonname.toLowerCase();
-            if(name.includes(value)) {
-                checkboxSearch.push(inventory[j]);
+
+    if(checked.length < 1) {
+        for(let i=0; i<inventory.length; i++) {
+            let name = inventory[i].commonname.toLowerCase();
+            if(name.includes(searchTerm)) {
+                search.push(inventory[i]);
+            }
+        }
+    } else {
+        for(let i=0; i<checked.length; i++) {
+            let value = checked[i].value;
+            for(let j=0; j<inventory.length; j++) {
+                let name = inventory[j].commonname.toLowerCase();
+                if(name.includes(value) && name.includes(searchTerm)) {
+                    console.log("Pushing " + name);
+                    search.push(inventory[j]);
+                }
             }
         }
     }
-
-    let i = 0;
-    let results = document.getElementById("results");
-    results.innerHTML = '';
-    let amountPerRow = 3;
-    var rowObj;
-    while(i < checkboxSearch.length) {
-        let name = checkboxSearch[i].commonname;
-        if(i % amountPerRow == 0) {
-            results.appendChild(document.createElement("br"));
-            rowObj = document.createElement("div");
-            rowObj.className = "row";
-            results.appendChild(rowObj);
-        }
-        let col = document.createElement("div");
-        col.className = "col-4";
-        let result = document.createElement("div");
-        result.className = "card";
-        result.id = "result";
-        let title = document.createElement("h5");
-        title.className = "result-title";
-        title.textContent = name;
-        let img = document.createElement("img");
-        img.className = "card-img-top";
-        img.src = getPictureLocation(name);
-        result.appendChild(img);
-        result.appendChild(title);
-
-        let newRow = document.createElement("div");
-        let col1 = document.createElement("div");
-        let col2 = document.createElement("div");
-        newRow.className = "row";
-        newRow.id = "details-row";
-        col1.className = "col-6";
-        col1.id = "details-row";
-        col2.className = "col-6";
-        col2.id = "details-row";
-        let label = document.createElement("p");
-        label.className = "label";
-        label.innerText = "Species:";
-        let text = document.createElement("p");
-        text.className = "words";
-        text.innerText = checkboxSearch[i].species;
-        col1.appendChild(label);
-        col1.appendChild(text);
-        newRow.appendChild(col1);
-
-        label = document.createElement("p");
-        label.className = "label";
-        label.innerText = "Genus:";
-        text = document.createElement("p");
-        text.className = "words";
-        text.innerText = checkboxSearch[i].genus;
-        col2.appendChild(label);
-        col2.appendChild(text);
-        newRow.appendChild(col1);
-        newRow.appendChild(col2);
-        result.appendChild(newRow);
-
-        newRow = document.createElement("div");
-        col1 = document.createElement("div");
-        col2 = document.createElement("div");
-        newRow.className = "row";
-        newRow.id = "details-row";
-        col1.className = "col-6";
-        col1.id = "details-row";
-        col2.className = "col-6";
-        col2.id = "details-row";
-        label = document.createElement("p");
-        label.className = "label";
-        label.innerText = "PH Range:";
-        text = document.createElement("p");
-        text.className = "words";
-        text.innerText = checkboxSearch[i].phrange;
-        col1.appendChild(label);
-        col1.appendChild(text);
-
-        label = document.createElement("p");
-        label.className = "label";
-        label.innerText = "Price:";
-        text = document.createElement("p");
-        text.className = "words";
-        text.innerText = "$" + checkboxSearch[i].price;
-        col2.appendChild(label);
-        col2.appendChild(text);
-        newRow.appendChild(col1);
-        newRow.appendChild(col2);
-        result.appendChild(newRow);
-
-        newRow = document.createElement("div");
-        col1 = document.createElement("div");
-        col2 = document.createElement("div");
-        newRow.className = "row";
-        newRow.id = "details-row";
-        col1.className = "col-6";
-        col1.id = "details-row";
-        col2.className = "col-6";
-        col2.id = "details-row";
-        label = document.createElement("p");
-        label.className = "label";
-        label.innerText = "In-Stock:";
-        text = document.createElement("p");
-        text.className = "words";
-        text.innerText = checkboxSearch[i].amount;
-        col1.appendChild(label);
-        col1.appendChild(text);
-
-        newRow.appendChild(col1);
-        result.appendChild(newRow);
-
-        result.appendChild(document.createElement("hr"));
-
-        newRow = document.createElement("div");
-        newRow.className = "row";
-        newRow.id = "details-row";
-        text = document.createElement("p");
-        text.className = "description";
-        text.innerText = checkboxSearch[i].description;
-        newRow.appendChild(text);
-        result.appendChild(newRow);
-        
-        col.appendChild(result);
-        rowObj.appendChild(col);
-
-        i++;
-    }
-    
+    await buildDisplay(search);
 }
 
 async function setup() {
     inventory = await fetchInfo();
-    let i = 0;
-    let results = document.getElementById("results");
-    results.innerHTML = '';
-    let amountPerRow = 3;
-    var rowObj;
-    while(i < inventory.length) {
-        let name = inventory[i].commonname;
-        if(i % amountPerRow == 0) {
-            results.appendChild(document.createElement("br"));
-            rowObj = document.createElement("div");
-            rowObj.className = "row";
-            results.appendChild(rowObj);
-        }
-        let col = document.createElement("div");
-        col.className = "col-4";
-        let result = document.createElement("div");
-        result.className = "card";
-        result.id = "result";
-        let title = document.createElement("h5");
-        title.className = "result-title";
-        title.textContent = name;
-        let img = document.createElement("img");
-        img.className = "card-img-top";
-        img.src = getPictureLocation(name);
-        result.appendChild(img);
-        result.appendChild(title);
-
-        let newRow = document.createElement("div");
-        let col1 = document.createElement("div");
-        let col2 = document.createElement("div");
-        newRow.className = "row";
-        newRow.id = "details-row";
-        col1.className = "col-6";
-        col1.id = "details-row";
-        col2.className = "col-6";
-        col2.id = "details-row";
-        let label = document.createElement("p");
-        label.className = "label";
-        label.innerText = "Species:";
-        let text = document.createElement("p");
-        text.className = "words";
-        text.innerText = inventory[i].species;
-        col1.appendChild(label);
-        col1.appendChild(text);
-        newRow.appendChild(col1);
-
-        label = document.createElement("p");
-        label.className = "label";
-        label.innerText = "Genus:";
-        text = document.createElement("p");
-        text.className = "words";
-        text.innerText = inventory[i].genus;
-        col2.appendChild(label);
-        col2.appendChild(text);
-        newRow.appendChild(col1);
-        newRow.appendChild(col2);
-        result.appendChild(newRow);
-
-        newRow = document.createElement("div");
-        col1 = document.createElement("div");
-        col2 = document.createElement("div");
-        newRow.className = "row";
-        newRow.id = "details-row";
-        col1.className = "col-6";
-        col1.id = "details-row";
-        col2.className = "col-6";
-        col2.id = "details-row";
-        label = document.createElement("p");
-        label.className = "label";
-        label.innerText = "PH Range:";
-        text = document.createElement("p");
-        text.className = "words";
-        text.innerText = inventory[i].phrange;
-        col1.appendChild(label);
-        col1.appendChild(text);
-
-        label = document.createElement("p");
-        label.className = "label";
-        label.innerText = "Price:";
-        text = document.createElement("p");
-        text.className = "words";
-        text.innerText = "$" + inventory[i].price;
-        col2.appendChild(label);
-        col2.appendChild(text);
-        newRow.appendChild(col1);
-        newRow.appendChild(col2);
-        result.appendChild(newRow);
-
-        newRow = document.createElement("div");
-        col1 = document.createElement("div");
-        col2 = document.createElement("div");
-        newRow.className = "row";
-        newRow.id = "details-row";
-        col1.className = "col-6";
-        col1.id = "details-row";
-        col2.className = "col-6";
-        col2.id = "details-row";
-        label = document.createElement("p");
-        label.className = "label";
-        label.innerText = "In-Stock:";
-        text = document.createElement("p");
-        text.className = "words";
-        text.innerText = inventory[i].amount;
-        col1.appendChild(label);
-        col1.appendChild(text);
-
-        newRow.appendChild(col1);
-        result.appendChild(newRow);
-
-        result.appendChild(document.createElement("hr"));
-
-        newRow = document.createElement("div");
-        newRow.className = "row";
-        newRow.id = "details-row";
-        text = document.createElement("p");
-        text.className = "description";
-        text.innerText = inventory[i].description;
-        newRow.appendChild(text);
-        result.appendChild(newRow);
-        
-        col.appendChild(result);
-        rowObj.appendChild(col);
-
-        i++;
-    }
+    await buildDisplay(inventory);
 }
+
+document.addEventListener("keydown", function(event) {
+    search();
+}, false);
+
+document.addEventListener("keyup", function(event) {
+    search();
+}, false);
 
 setup();
