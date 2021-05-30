@@ -86,15 +86,15 @@ async function fetchInfo() {
             switch(i) {
                 case 0:
                     labels[i].textContent = "Corals";
-                    checkboxes[i].value = "Coral";
+                    checkboxes[i].value = "coral";
                     break;
                 case 1:
                     labels[i].textContent = "Anemones";
-                    checkboxes[i].value = "Anemone";
+                    checkboxes[i].value = "anemone";
                     break;
                 case 2:
                     labels[i].textContent = "Other";
-                    checkboxes[i].value = "Other";
+                    checkboxes[i].value = "other";
                     break;
             }
         }
@@ -104,11 +104,11 @@ async function fetchInfo() {
             switch(i) {
                 case 0:
                     labels[i].textContent = "Clown Fish";
-                    checkboxes[i].value = "Clown";
+                    checkboxes[i].value = "clown";
                     break;
                 case 1:
                     labels[i].textContent = "Tangs";
-                    checkboxes[i].value = "Tang";
+                    checkboxes[i].value = "tang";
                     break;
                 case 2:
                     labels[i].textContent = "Something";
@@ -122,15 +122,15 @@ async function fetchInfo() {
             switch(i) {
                 case 0:
                     labels[i].textContent = "Shrimps";
-                    checkboxes[i].value = "Shrimp";
+                    checkboxes[i].value = "shrimp";
                     break;
                 case 1:
                     labels[i].textContent = "Snails";
-                    checkboxes[i].value = "Snail";
+                    checkboxes[i].value = "snail";
                     break;
                 case 2:
                     labels[i].textContent = "Crabs";
-                    checkboxes[i].value = "Crab";
+                    checkboxes[i].value = "crab";
                     break;
             }
         }
@@ -143,11 +143,11 @@ function getPictureLocation(name) {
 }
 
 async function search() {
-    let searchTerm = document.getElementById("searchbar").value;
+    let searchTerm = document.getElementById("searchbar").value.toLowerCase();
     let search = [];
     for(let i=0; i<inventory.length; i++) {
-        let name = inventory[i].commonname;
-        if(name.indexOf(searchTerm) != -1) {
+        let name = inventory[i].commonname.toLowerCase();
+        if(name.includes(searchTerm)) {
             search.push(inventory[i]);
         }
     }
@@ -303,8 +303,8 @@ async function updateResults() {
     for(let i=0; i<checked.length; i++) {
         let value = checked[i].value;
         for(let j=0; j<inventory.length; j++) {
-            let name = inventory[j].commonname;
-            if(name.indexOf(value) != -1) {
+            let name = inventory[j].commonname.toLowerCase();
+            if(name.includes(value)) {
                 checkboxSearch.push(inventory[j]);
             }
         }
