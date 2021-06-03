@@ -463,7 +463,6 @@ function buildDisplay(merchandise) {
                         storedCart.push(item);
                     }
                     sessionStorage.setItem("cart", JSON.stringify(storedCart));
-                    console.log(storedCart);
                 }
                 
             } else {
@@ -529,7 +528,6 @@ async function search() {
             for(let j=0; j<inventory.length; j++) {
                 let name = inventory[j].commonname.toLowerCase();
                 if(name.includes(value) && name.includes(searchTerm)) {
-                    console.log("Pushing " + name);
                     search.push(inventory[j]);
                 }
             }

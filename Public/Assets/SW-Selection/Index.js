@@ -462,7 +462,6 @@ function buildDisplay(merchandise) {
                         storedCart.push(item);
                     }
                     sessionStorage.setItem("cart", JSON.stringify(storedCart));
-                    console.log(storedCart);
                 }
                 
             } else {
