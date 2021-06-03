@@ -106,11 +106,6 @@
     padding-right: 1cm;
 }
 
-#cart-container {
-    position: fixed;
-    right: 0;
-}
-
 #results {
     height: 100%;
     position: sticky;
@@ -127,6 +122,18 @@
 
 #details-row {
     display: inline-block;
+}
+
+#cart-container {
+    position: fixed;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#cart {
+    overflow-y: auto;
 }
 
 .cart-entry-container {
@@ -158,29 +165,33 @@
 
 .cart-entry-amount {
     display: inline;
+    float: left;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     font-weight: normal;
     color: white;
-    text-align: left;
     padding-left: 10px;
     padding-right: 10px;
+    font-size: 12px;
 }
 
 .cart-entry-name {
     display: inline;
+    float: right;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     font-weight: normal;
     color: white;
-    text-align: left;
+    text-align: right;
     padding-left: 10px;
     padding-right: 10px;
-    border-bottom: solid black 2px;
+    font-size: 12px;
+    right: 0;
 }
 
 .rem-btn {
     display: inline;
+    float: left;
     border-radius: 1cm;
     background-color: red;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
@@ -189,6 +200,7 @@
     font-weight: normal;
     padding-left: 10px;
     padding-right: 10px;
+    left: 0;
 }
 
 /* End Body */

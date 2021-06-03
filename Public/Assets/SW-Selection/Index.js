@@ -145,6 +145,83 @@ function buildDisplay(merchandise) {
     let i = 0;
     let j = 0;
     let results = document.getElementById("results");
+    let storedCart = sessionStorage.getItem("cart");
+    if(storedCart != null && storedCart != "") {
+        storedCart = JSON.parse(storedCart);
+        for(let k=0; k<storedCart.length; k++) {
+            let checkoutBtn = document.getElementById("checkout-btn");
+            checkoutBtn.disabled = false;
+            let fish = storedCart[k].name;
+            let fishID = storedCart[k].id;
+            let fishAmount = storedCart[k].amount;
+
+            let cartItem = document.getElementById(fish + "-cart-amount");
+            if(cartItem === null) {
+                let cartEntry = document.createElement("div");
+                cartEntry.id = fish + "-cart-item";
+                cartEntry.className = "cart-entry-container";
+
+                let remBtn = document.createElement("button");
+                remBtn.type = "button";
+                remBtn.id = fish + "-rem-btn";
+                remBtn.className = "rem-btn";
+                remBtn.innerText = "Remove -";
+                remBtn.onclick = function() {
+                    let itemAmount = document.getElementById(fish + "-cart-amount");
+                    itemAmount.innerText = parseInt(itemAmount.innerText) - 1;
+                    if(itemAmount.innerText === "0") {
+                        let cartEntry = document.getElementById(fish + "-cart-item");
+                        cartEntry.remove();
+                        this.remove();
+                        let l = 0;
+                        for(l; l<storedCart.length; l++) {
+                            if(storedCart[l].id == fishID) {
+                                break;
+                            }
+                        }
+                        storedCart.splice(l, 1);
+                        sessionStorage.setItem("cart", JSON.stringify(storedCart));
+                    }
+
+                    if(storedCart.length == 0) {
+                        document.getElementById("checkout-btn").disabled = true;
+                    }
+
+                    let fishAmount = document.getElementById(fish + "-amount");
+                    if(fishAmount != null) {
+                        fishAmount.innerText = parseInt(fishAmount.innerText) + 1;
+                        if(fishAmount.innerText === "1") {
+                            let addBtn = document.getElementById(this.id.slice(0, this.id.length - 8) + "-btn");
+                            addBtn.style.backgroundColor = "greenyellow";
+                            addBtn.disabled = false;
+                        }    
+                    }
+                    
+                    inventory[parseInt(fish.slice(fish.length-1))].amount++;
+                }
+
+                let itemAmount = document.createElement("label");
+                itemAmount.id = fish + "-cart-amount";
+                itemAmount.className = "cart-entry-amount";
+                itemAmount.innerText = 1;
+
+                let itemName = document.createElement("p");
+                itemName.className = "cart-entry-name";
+                itemName.innerText = fish.split("-").join(" ").slice(0, fish.length-1);
+
+                let container = document.createElement("div");
+                container.appendChild(remBtn);
+                container.appendChild(itemAmount);
+                container.appendChild(itemName);
+
+                cartEntry.appendChild(container);
+                cartEntry.appendChild(document.createElement("hr"));
+
+                let cart = document.getElementById("cart");
+                cart.appendChild(cartEntry);
+            }
+        }
+    }
     results.innerHTML = '';
     let amountPerRow = 3;
     let rowObj;
@@ -169,6 +246,7 @@ function buildDisplay(merchandise) {
         title.className = "result-title";
         title.textContent = name;
         let img = document.createElement("img");
+        img.id = merchandise[i].merchid;
         img.className = "card-img-top";
         img.src = getPictureLocation(name);
         result.appendChild(img);
@@ -250,7 +328,21 @@ function buildDisplay(merchandise) {
         text = document.createElement("p");
         text.className = "words";
         text.id = merchandise[i].commonname.replace(/\s+/g, '-') + j + "-amount";
-        text.innerText = merchandise[i].amount;
+        let amountAfterCart = merchandise[i].amount;
+        if(storedCart != null && storedCart != "") {
+            for(let k=0; k<storedCart.length; k++) {
+                if(storedCart[k].id == merchandise[i].merchid) {
+                    amountAfterCart = parseInt(amountAfterCart) - parseInt(storedCart[k].id);
+                    if(amountAfterCart < 0) {
+                        amountAfterCart = 0;
+                    }
+                    break;
+                }
+            }
+            text.innerText = amountAfterCart;
+        } else {
+            text.innerText = amountAfterCart;
+        }
         col1.appendChild(label);
         col1.appendChild(text);
 
@@ -259,7 +351,7 @@ function buildDisplay(merchandise) {
         addBtn.id = merchandise[i].commonname.replace(/\s+/g, '-') + j + "-btn";
         addBtn.className = "add-btn";
         addBtn.textContent = "Add to Cart +";
-        if(merchandise[i].amount === 0) {
+        if(amountAfterCart === 0) {
             addBtn.style.backgroundColor = "whitesmoke";
             addBtn.disabled = "disabled";
         }
@@ -267,6 +359,7 @@ function buildDisplay(merchandise) {
             let checkoutBtn = document.getElementById("checkout-btn");
             checkoutBtn.disabled = false;
             let fish = this.parentElement.parentElement.parentElement.id;
+            let fishID = this.parentElement.parentElement.parentElement.firstChild.id;
             let fishAmount = document.getElementById(fish + "-amount");
             fishAmount.innerText = parseInt(fishAmount.innerText) - 1;
             inventory[parseInt(fish.slice(fish.length-1))].amount--;
@@ -293,6 +386,18 @@ function buildDisplay(merchandise) {
                         let cartEntry = document.getElementById(fish + "-cart-item");
                         cartEntry.remove();
                         this.remove();
+                        let k = 0;
+                        for(k; k<storedCart.length; k++) {
+                            if(storedCart[k].id == fishID) {
+                                break;
+                            }
+                        }
+                        storedCart.splice(k, 1);
+                        sessionStorage.setItem("cart", JSON.stringify(storedCart));
+                    }
+
+                    if(storedCart.length == 0) {
+                        document.getElementById("checkout-btn").disabled = true;
                     }
 
                     let fishAmount = document.getElementById(fish + "-amount");
@@ -317,14 +422,62 @@ function buildDisplay(merchandise) {
                 itemName.className = "cart-entry-name";
                 itemName.innerText = fish.split("-").join(" ").slice(0, fish.length-1);
 
-                cartEntry.appendChild(itemAmount);
-                cartEntry.appendChild(itemName);
+                let container = document.createElement("div");
+                container.appendChild(remBtn);
+                container.appendChild(itemAmount);
+                container.appendChild(itemName);
+
+                cartEntry.appendChild(container);
+                cartEntry.appendChild(document.createElement("hr"));
 
                 let cart = document.getElementById("cart");
-                cart.appendChild(remBtn);
                 cart.appendChild(cartEntry);
+
+                
+                let storedCart = sessionStorage.getItem("cart");
+                if(storedCart == null || storedCart == "") {
+                    let cart = [];
+                    let item = {
+                        name: fish,
+                        id: fishID,
+                        amount: 1
+                    }
+                    cart.push(item);
+                    sessionStorage.setItem("cart", JSON.stringify(cart));
+                } else {
+                    storedCart = JSON.parse(storedCart);
+                    let found = false;
+                    for(let i=0; i<storedCart.length; i++) {
+                        if(storedCart[i].id == fishID) {
+                            storedCart[i].amount++;
+                            found = true;
+                        }
+                    }
+                    if(!found) {
+                        let item = {
+                            name: fish,
+                            id: fishID,
+                            amount: 1
+                        }
+                        storedCart.push(item);
+                    }
+                    sessionStorage.setItem("cart", JSON.stringify(storedCart));
+                    console.log(storedCart);
+                }
+                
             } else {
                 cartItem.innerText = parseInt(cartItem.innerText) + 1;
+                let storedCart = sessionStorage.getItem("cart");
+                if(storedCart != null) {
+                    storedCart = JSON.parse(storedCart);
+                    for(let i=0; i<storedCart.length; i++) {
+                        if(storedCart[i].id == fishID) {
+                            storedCart[i].amount++;
+                            break;
+                        }
+                    }
+                }
+                sessionStorage.setItem("cart", JSON.stringify(storedCart));
             }
         });
         col2.appendChild(addBtn);
